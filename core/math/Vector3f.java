@@ -1,4 +1,4 @@
-package core.math;
+package SpotGL.core.math;
 
 public class Vector3f {
 

@@ -1,9 +1,9 @@
-package core.graphics;
+package SpotGL.core.graphics;
 
-import core.math.BufferUtils;
+import SpotGL.core.math.BufferUtils;
 
-import static core.graphics.ShaderUtils.TCOORD_ATTRIB;
-import static core.graphics.ShaderUtils.VERTEX_ATTRIB;
+import static SpotGL.core.graphics.ShaderUtils.TCOORD_ATTRIB;
+import static SpotGL.core.graphics.ShaderUtils.VERTEX_ATTRIB;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;

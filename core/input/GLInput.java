@@ -1,4 +1,4 @@
-package core.input;
+package SpotGL.core.input;
 
 import org.lwjgl.glfw.GLFWKeyCallback;
 

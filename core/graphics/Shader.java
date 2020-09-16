@@ -1,7 +1,7 @@
-package core.graphics;
+package SpotGL.core.graphics;
 
-import core.math.Matrix4f;
-import core.math.Vector3f;
+import SpotGL.core.math.Matrix4f;
+import SpotGL.core.math.Vector3f;
 
 import java.util.HashMap;
 import java.util.Map;

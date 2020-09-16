@@ -1,7 +1,7 @@
-package core.graphics;
+package SpotGL.core.graphics;
 
-import core.input.GLInput;
-import core.math.Matrix4f;
+import SpotGL.core.input.GLInput;
+import SpotGL.core.math.Matrix4f;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;

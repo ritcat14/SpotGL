@@ -1,6 +1,6 @@
-package core.files;
+package SpotGL.core.files;
 
-import core.GLEngine;
+import SpotGL.core.GLEngine;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

@@ -1,10 +1,10 @@
+package SpotGL;
 
-import core.GLEngine;
+import SpotGL.core.GLEngine;
 
-public class Main {
+public class GLMain {
 
     public static void main(String[] args) {
-        //new Engine().start();
         new GLEngine().start();
     }
 }

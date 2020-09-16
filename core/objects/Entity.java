@@ -1,10 +1,10 @@
-package core.objects;
+package SpotGL.core.objects;
 
-import core.graphics.VertexArray;
+import SpotGL.core.graphics.VertexArray;
 
 import java.awt.*;
 
-import static core.math.MathUtils.createVertexFromRectangle;
+import static SpotGL.core.math.MathUtils.createVertexFromRectangle;
 
 public class Entity extends Rectangle {
 

@@ -1,10 +1,10 @@
-package core;
+package SpotGL.core;
 
-import core.graphics.GLFrame;
-import core.graphics.ShaderUtils;
-import core.objects.State;
+import SpotGL.core.graphics.GLFrame;
+import SpotGL.core.graphics.ShaderUtils;
+import SpotGL.core.objects.State;
 
-import static core.graphics.GLFrame.projectionMatrix;
+import static SpotGL.core.graphics.GLFrame.projectionMatrix;
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;

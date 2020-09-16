@@ -1,7 +1,7 @@
-package core.graphics;
+package SpotGL.core.graphics;
 
-import core.files.FileUtils;
-import core.math.BufferUtils;
+import SpotGL.core.files.FileUtils;
+import SpotGL.core.math.BufferUtils;
 
 import java.awt.image.BufferedImage;
 

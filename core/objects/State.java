@@ -1,6 +1,6 @@
-package core.objects;
+package SpotGL.core.objects;
 
-import core.graphics.ShaderUtils;
+import SpotGL.core.graphics.ShaderUtils;
 
 public class State {
 

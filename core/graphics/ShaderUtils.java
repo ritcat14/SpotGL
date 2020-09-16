@@ -1,12 +1,11 @@
-package core.graphics;
+package SpotGL.core.graphics;
 
-import core.files.FileUtils;
-import core.math.Matrix4f;
+import SpotGL.core.files.FileUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static core.graphics.GLFrame.projectionMatrix;
+import static SpotGL.core.graphics.GLFrame.projectionMatrix;
 import static org.lwjgl.opengl.GL20.*;
 
 public class ShaderUtils {
@@ -14,7 +13,7 @@ public class ShaderUtils {
     public static final int VERTEX_ATTRIB = 0;
     public static final int TCOORD_ATTRIB = 1;
 
-    private Map<String,Shader> shaders = new HashMap<>();
+    private Map<String, Shader> shaders = new HashMap<>();
 
     public void registerShader(String name) {
         Shader shader = load("shaders/" + name + "Vertex.glsl", "shaders/" + name + "Fragment.glsl");

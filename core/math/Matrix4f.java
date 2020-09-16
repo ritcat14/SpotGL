@@ -1,4 +1,4 @@
-package core.math;
+package SpotGL.core.math;
 
 import java.nio.FloatBuffer;
 

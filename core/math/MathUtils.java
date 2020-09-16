@@ -1,10 +1,10 @@
-package core.math;
+package SpotGL.core.math;
 
-import core.graphics.VertexArray;
+import SpotGL.core.graphics.VertexArray;
 
 import java.awt.*;
 
-import static core.graphics.GLFrame.*;
+import static SpotGL.core.graphics.GLFrame.*;
 
 public class MathUtils {
 
