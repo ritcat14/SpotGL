@@ -8,19 +8,19 @@ import java.nio.IntBuffer;
 public class BufferUtils {
 
     public static ByteBuffer createByteBuffer(byte[] array) {
-        ByteBuffer result = ByteBuffer.allocateDirect(array.length).order(ByteOrder.nativeOrder());
+        ByteBuffer result = org.lwjgl.BufferUtils.createByteBuffer(array.length);
         result.put(array).flip();
         return result;
     }
 
     public static FloatBuffer createFloatBuffer(float[] array) {
-        FloatBuffer result = ByteBuffer.allocateDirect(array.length << 2).order(ByteOrder.nativeOrder()).asFloatBuffer();
+        FloatBuffer result = org.lwjgl.BufferUtils.createFloatBuffer(array.length);
         result.put(array).flip();
         return result;
     }
 
     public static IntBuffer createIntBuffer(int[] array) {
-        IntBuffer result = ByteBuffer.allocateDirect(array.length << 2).order(ByteOrder.nativeOrder()).asIntBuffer();
+        IntBuffer result = org.lwjgl.BufferUtils.createIntBuffer(array.length);
         result.put(array).flip();
         return result;
     }

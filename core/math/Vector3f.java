@@ -1,5 +1,7 @@
 package SpotGL.core.math;
 
+import static SpotGL.core.math.MathUtils.missingAngleTriangle;
+
 public class Vector3f {
 
     public float x, y, z;
@@ -15,4 +17,9 @@ public class Vector3f {
         this.y = y;
         this.z = z;
     }
+
+    public double getXYAngle() {
+        return missingAngleTriangle(x, y);
+    }
+
 }

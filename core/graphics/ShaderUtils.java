@@ -2,6 +2,7 @@ package SpotGL.core.graphics;
 
 import SpotGL.core.files.FileUtils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,16 +17,18 @@ public class ShaderUtils {
     private Map<String, Shader> shaders = new HashMap<>();
 
     public void registerShader(String name) {
-        Shader shader = load("shaders/" + name + "Vertex.glsl", "shaders/" + name + "Fragment.glsl");
-        shader.enable();
+        Shader shader = load(name);
         shader.setUniformMatrix4f("projectionMatrix", projectionMatrix);
-        shader.disable();
+        shader.stop();
         shaders.put(name, shader);
     }
 
-    public Shader load(String vertexPath, String fragmentPath) {
-        String vertex = FileUtils.loadAsString(vertexPath);
-        String fragment = FileUtils.loadAsString(fragmentPath);
+    public Shader load(String name) {
+        String vertexPath = "shaders/" + name + "Vertex.glsl";
+        String fragmentPath = "shaders/" + name + "Fragment.glsl";
+
+        StringBuilder vertex = FileUtils.loadAsString(vertexPath);
+        StringBuilder fragment = FileUtils.loadAsString(fragmentPath);
 
         int program = glCreateProgram();
         int vertexID = glCreateShader(GL_VERTEX_SHADER);
@@ -49,13 +52,19 @@ public class ShaderUtils {
 
         glAttachShader(program, vertexID);
         glAttachShader(program, fragmentID);
+        Shader shader = null;
+        try {
+            Class<?> cls = Class.forName("SpotGL.game.shaders." + name + "Shader");
+            Object shaderObject = cls.getDeclaredConstructor(int.class, int.class, int.class).newInstance(program, vertexID, fragmentID);
+            shader = (Shader)shaderObject;
+        } catch (ClassNotFoundException | InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
         glLinkProgram(program);
         glValidateProgram(program);
 
-        glDeleteShader(vertexID);
-        glDeleteShader(fragmentID);
-
-        return new Shader(program);
+        return shader;
     }
 
     public Shader getShader(String name) {

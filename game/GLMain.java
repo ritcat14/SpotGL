@@ -1,4 +1,4 @@
-package SpotGL;
+package SpotGL.game;
 
 import SpotGL.core.GLEngine;
 

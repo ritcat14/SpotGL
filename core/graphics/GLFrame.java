@@ -1,6 +1,8 @@
 package SpotGL.core.graphics;
 
+import SpotGL.core.GLEngine;
 import SpotGL.core.input.GLInput;
+import SpotGL.core.input.InputHandler;
 import SpotGL.core.math.Matrix4f;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -15,6 +17,9 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class GLFrame {
 
+    public static final int JAVA_WIDTH = 1920;
+    public static final int JAVA_HEIGHT = 1080;
+
     public static final float glX = -10.0f;
     public static final float glY = -10.0f * 9.0f / 16.0f;
     public static final float glW = 20.0f;
@@ -24,8 +29,9 @@ public class GLFrame {
             glY, glY + glH, -1.0f, 1.0f);
 
     private long windowID;
+    private InputHandler inputHandler;
 
-    public GLFrame(int width, int height) {
+    public GLFrame(GLEngine glEngine, int width, int height) {
         GLFWErrorCallback.createPrint(System.err).set();
 
         if ( !glfwInit() )
@@ -62,7 +68,9 @@ public class GLFrame {
             );
         }
 
-        glfwSetKeyCallback(windowID, new GLInput());
+        inputHandler = new InputHandler(glEngine);
+        glfwSetKeyCallback(windowID, inputHandler.keyboard);
+        glfwSetMouseButtonCallback(windowID, inputHandler.mouse);
 
         glfwMakeContextCurrent(windowID);
         glfwSwapInterval(1);
@@ -70,6 +78,10 @@ public class GLFrame {
         glfwShowWindow(windowID);
 
         GL.createCapabilities();
+    }
+
+    public InputHandler getInputHandler() {
+        return inputHandler;
     }
 
     public void close() {

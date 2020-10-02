@@ -33,7 +33,7 @@ public class Matrix4f {
         return result;
     }
 
-    public static Matrix4f translate(Vector3f vector3f) {
+    public Matrix4f translate(Vector3f vector3f) {
         Matrix4f result = identity();
 
         result.elements[3 * WIDTH] = vector3f.x;
@@ -42,7 +42,7 @@ public class Matrix4f {
         return result;
     }
 
-    public static Matrix4f rotate(float angle) {
+    public Matrix4f rotate(float angle) {
         Matrix4f result = identity();
         float r = (float) Math.toRadians(angle);
         float cos = (float) Math.cos(r);
