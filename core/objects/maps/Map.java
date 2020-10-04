@@ -2,7 +2,6 @@ package SpotGL.core.objects.maps;
 
 import SpotGL.core.graphics.Shader;
 import SpotGL.core.input.InputHandler;
-import SpotGL.game.shaders.TerrainShader;
 import org.lwjgl.glfw.GLFW;
 import org.xml.sax.SAXException;
 
@@ -50,7 +49,7 @@ public abstract class Map {
         }
     }
 
-    public void render(TerrainShader shader) {
+    public void render(Shader shader) {
         for (Layer layer : layers) {
             layer.render(shader, tileSet, x, y);
         }

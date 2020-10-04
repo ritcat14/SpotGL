@@ -1,9 +1,7 @@
 package SpotGL.core;
 
 import SpotGL.core.graphics.GLFrame;
-import SpotGL.core.graphics.ShaderUtils;
 import SpotGL.core.input.InputHandler;
-import SpotGL.core.states.State;
 import SpotGL.core.states.StateManager;
 import SpotGL.game.states.Game;
 
@@ -11,15 +9,11 @@ import static java.lang.System.currentTimeMillis;
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL13.GL_TEXTURE1;
-import static org.lwjgl.opengl.GL13.glActiveTexture;
 
 public class GLEngine implements Runnable {
 
     private Thread thread;
     private GLFrame glFrame;
-
-    private ShaderUtils shaderUtils;
 
     private InputHandler inputHandler;
     private StateManager stateManager;
@@ -30,16 +24,11 @@ public class GLEngine implements Runnable {
         glEnable(GL_DEPTH_TEST);
         System.out.println("OpenGL: " + glGetString(GL_VERSION));
 
-        shaderUtils = new ShaderUtils();
-
-        shaderUtils.registerShader("Entity");
-        shaderUtils.registerShader("Terrain");
-
         inputHandler = glFrame.getInputHandler();
         inputHandler.init(glFrame.getWindowID());
 
         stateManager = new StateManager();
-        stateManager.addState(new Game(shaderUtils));
+        stateManager.addState(new Game());
     }
 
     public synchronized void start() {

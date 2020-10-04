@@ -1,9 +1,8 @@
 package SpotGL.core.graphics;
 
 import SpotGL.core.GLEngine;
-import SpotGL.core.input.GLInput;
 import SpotGL.core.input.InputHandler;
-import SpotGL.core.math.Matrix4f;
+import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -17,16 +16,17 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class GLFrame {
 
-    public static final int JAVA_WIDTH = 1920;
-    public static final int JAVA_HEIGHT = 1080;
+    public static final float JAVA_WIDTH = 1920.f;
+    public static final float JAVA_HEIGHT = 1080.f;
 
-    public static final float glX = -10.0f;
-    public static final float glY = -10.0f * 9.0f / 16.0f;
-    public static final float glW = 20.0f;
-    public static final float glH = 2 * (10.0f * 9.0f / 16.0f);
+    public static final float glX = -1f;
+    public static final float glY = -1f;
+    public static final float glW = 2f;
+    public static final float glH = 2f;
 
-    public static final Matrix4f projectionMatrix = Matrix4f.orthographic(glX, glX + glW,
-            glY, glY + glH, -1.0f, 1.0f);
+    public static final float FOV = (float)Math.toRadians(60.0f);
+    public static final float NEAR_PLANE = 0.1f;
+    public static final float FAR_PLANE = 1000.f;
 
     private long windowID;
     private InputHandler inputHandler;

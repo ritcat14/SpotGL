@@ -1,8 +1,7 @@
 package SpotGL.core.objects.maps;
 
+import SpotGL.core.graphics.Shader;
 import SpotGL.game.entities.Tile;
-import SpotGL.game.shaders.EntityShader;
-import SpotGL.game.shaders.TerrainShader;
 
 import java.util.Arrays;
 
@@ -32,7 +31,7 @@ public class Chunk {
                 '}';
     }
 
-    public void render(TerrainShader shader, TileSet tileSet, int mapX, int mapY) {
+    public void render(Shader shader, TileSet tileSet, int mapX, int mapY) {
         for (int y1 = 0; y1 < height; y1++) {
             for (int x1 = 0; x1 < width; x1++) {
                 int tileID = data[y1][x1];

@@ -2,6 +2,7 @@ package SpotGL.core.math;
 
 import SpotGL.core.graphics.VertexArray;
 import SpotGL.core.objects.Entity;
+import org.joml.Vector3f;
 
 import static SpotGL.core.graphics.GLFrame.*;
 
@@ -9,9 +10,15 @@ public class MathUtils {
 
     private MathUtils() {}
 
-    private static int[] indices = {
-            0, 1, 3,
-            3, 1, 2
+    private static float[] vertices = new float[] {
+            -1f,  1f, -1.05f,
+            -1f, -1f, -1.05f,
+            1f, -1f, -1.05f,
+            1f,  1f, -1.05f,
+    };
+
+    private static int[] indices = new int[] {
+            0, 1, 3, 3, 1, 2,
     };
 
     private static float[] textureCoords = {
@@ -60,9 +67,16 @@ public class MathUtils {
         };
     }
 
-    public static VertexArray createVertexFromRectangle(Entity rectangle) {
-        return new VertexArray(pixelToGL(rectangle.getPosition().x, rectangle.getPosition().y,
-                rectangle.getSize().x, rectangle.getSize().y), indices, textureCoords);
+    public static VertexArray createEntityVertexArray(Entity entity) {
+        Vector3f position = entity.getPosition();
+        Vector3f size = entity.getSize();
+        /*float[] vertices = {
+                position.x, position.y, position.z,
+                position.x, position.y - size.y, position.z,
+                position.x + size.x, position.y - size.y, position.z,
+                position.x + size.x, position.y, position.z
+        };*/
+        return new VertexArray(vertices, indices, textureCoords);
     }
 
     public static double calculateDistance(double x1, double y1, double x2, double y2) {

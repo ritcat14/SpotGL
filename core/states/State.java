@@ -1,6 +1,5 @@
 package SpotGL.core.states;
 
-import SpotGL.core.graphics.ShaderUtils;
 import SpotGL.core.input.InputHandler;
 
 public abstract class State {
@@ -10,10 +9,7 @@ public abstract class State {
     private StateName requestedState;
     private boolean requestedChange = false;
 
-    protected ShaderUtils shaderUtils;
-
-    public State(ShaderUtils shaderUtils, StateName stateName) {
-        this.shaderUtils = shaderUtils;
+    public State(StateName stateName) {
         this.stateName = stateName;
     }
 

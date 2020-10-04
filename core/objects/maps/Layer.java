@@ -1,7 +1,6 @@
 package SpotGL.core.objects.maps;
 
 import SpotGL.core.graphics.Shader;
-import SpotGL.game.shaders.TerrainShader;
 
 import java.util.List;
 
@@ -32,7 +31,7 @@ public class Layer {
                 '}';
     }
 
-    public void render(TerrainShader shader, TileSet tileSet, int x, int y) {
+    public void render(Shader shader, TileSet tileSet, int x, int y) {
         for (Chunk chunk : layerData) {
             chunk.render(shader, tileSet, x, y);
         }

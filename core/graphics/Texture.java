@@ -1,11 +1,5 @@
 package SpotGL.core.graphics;
 
-import SpotGL.core.files.FileUtils;
-import SpotGL.core.math.BufferUtils;
-import de.matthiasmann.twl.utils.PNGDecoder;
-
-import java.awt.image.BufferedImage;
-
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
