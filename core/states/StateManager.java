@@ -1,11 +1,12 @@
 package SpotGL.core.states;
 
 import SpotGL.core.input.InputHandler;
+import SpotGL.core.input.InputListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StateManager {
+public class StateManager implements InputListener {
     
     private List<State> states;
     private List<State> statesToAdd;
@@ -81,10 +82,11 @@ public class StateManager {
         return null;
     }
 
-    public void onEvent(InputHandler inputHandler) {
+    @Override
+    public void onInput(InputHandler inputHandler) {
         if (currentState != null) {
             input = true;
-            currentState.onEvent(inputHandler);
+            currentState.onInput(inputHandler);
             input = false;
         }
     }

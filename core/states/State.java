@@ -1,16 +1,20 @@
 package SpotGL.core.states;
 
-import SpotGL.core.input.InputHandler;
+import SpotGL.core.graphics.GLFrame;
+import SpotGL.core.input.InputListener;
 
-public abstract class State {
+public abstract class State implements InputListener {
+
+    protected final GLFrame glFrame;
 
     private final StateName stateName;
 
     private StateName requestedState;
     private boolean requestedChange = false;
 
-    public State(StateName stateName) {
+    public State(GLFrame glFrame, StateName stateName) {
         this.stateName = stateName;
+        this.glFrame = glFrame;
     }
 
     public boolean verify(StateName stateName) {
@@ -24,8 +28,6 @@ public abstract class State {
     public abstract void render();
 
     public abstract void cleanUp();
-
-    public abstract void onEvent(InputHandler inputHandler);
 
     public void requestChange(StateName state) {
         requestedState = state;

@@ -6,7 +6,7 @@ import SpotGL.game.entities.Tile;
 import java.util.HashMap;
 import java.util.Map;
 
-import static SpotGL.core.files.FileUtils.loadTexture;
+import static SpotGL.core.utils.FileUtils.loadTexture;
 
 public class TileSet {
 

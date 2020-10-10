@@ -1,73 +1,55 @@
 package SpotGL.game.states;
 
+import SpotGL.core.graphics.GLFrame;
 import SpotGL.core.input.InputHandler;
-import SpotGL.core.math.Camera;
-import SpotGL.core.math.Transformation;
+import SpotGL.core.objects.Camera;
 import SpotGL.core.states.State;
 import SpotGL.game.entities.Player;
-import SpotGL.game.shaders.EntityShader;
+import SpotGL.game.managers.EntityManager;
+import SpotGL.game.managers.TerrainManager;
+import SpotGL.game.maps.Map1;
 
 import static SpotGL.core.states.StateName.GAME;
 
 public class Game extends State {
 
-    private EntityShader entityShader;
-    private Player player;
+    private EntityManager entityManager;
+    private TerrainManager terrainManager;
     private Camera camera;
-    private Transformation transformation;
 
-    private boolean up, down, left, right;
-    //private Map1 map;
-
-    public Game() {
-        super(GAME);
+    public Game(GLFrame glFrame) {
+        super(glFrame, GAME);
     }
 
     @Override
     public void init() {
-        try {
-            entityShader = new EntityShader();
-        } catch (Exception e) {
-            System.err.println("Failed in creating shaders for state: " + getStateName().toString());
-            e.printStackTrace();
-        }
-
-        transformation = new Transformation();
-
         camera = new Camera();
+        entityManager = new EntityManager(camera);
+        entityManager.setPlayer(new Player());
 
-        player = new Player();
-        //map = new Map1();
+        terrainManager = new TerrainManager(new Map1(camera));
     }
 
     @Override
     public void update() {
-        //map.update();
-        player.update();
+        entityManager.update();
+        terrainManager.update();
     }
 
     @Override
-
     public void render() {
-        entityShader.bind();
-        entityShader.setUniformMatrix4f("viewMatrix", transformation.getViewMatrix(camera));
-        entityShader.setUniformMatrix4f("projectionMatrix", transformation.getProjectionMatrix());
-        player.render(entityShader, transformation);
-        entityShader.unbind();
-        //terrainShader.start();
-        //map.render(terrainShader);
-        //terrainShader.stop();
+        entityManager.render(glFrame, camera);
+        terrainManager.render(glFrame, camera);
     }
 
     @Override
     public void cleanUp() {
-        player.cleanUp();
-        //map.cleanUp();
-        entityShader.cleanUp();
+        entityManager.cleanUp();
+        terrainManager.cleanUp();
     }
 
     @Override
-    public void onEvent(InputHandler inputHandler) {
-        camera.move(inputHandler);
+    public void onInput(InputHandler inputHandler) {
+        entityManager.onInput(inputHandler);
     }
 }

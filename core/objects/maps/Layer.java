@@ -1,6 +1,7 @@
 package SpotGL.core.objects.maps;
 
 import SpotGL.core.graphics.Shader;
+import org.joml.Vector2f;
 
 import java.util.List;
 
@@ -31,9 +32,9 @@ public class Layer {
                 '}';
     }
 
-    public void render(Shader shader, TileSet tileSet, int x, int y) {
+    public void render(Shader shader, TileSet tileSet, Vector2f centerPosition) {
         for (Chunk chunk : layerData) {
-            chunk.render(shader, tileSet, x, y);
+            chunk.render(shader, tileSet, centerPosition);
         }
     }
 

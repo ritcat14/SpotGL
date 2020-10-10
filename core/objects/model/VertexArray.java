@@ -1,23 +1,52 @@
-package SpotGL.core.graphics;
+package SpotGL.core.objects.model;
 
+import SpotGL.core.graphics.Shader;
+import SpotGL.core.graphics.Texture;
 import org.lwjgl.system.MemoryUtil;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
+import static SpotGL.core.VarStore.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
 public class VertexArray {
 
-    public static int VERTEX_ATTRIB = 0;
-    public static int TEXTURE_ATTRIB = 1;
+    private static float[] vertices = new float[] {
+            glX,  glY, 0f,
+            glX, glY - glH, 0f,
+            glX + glW, glY - glH, 0f,
+            glX + glW,  glY, 0f,
+    };
+
+    private static int[] indices = new int[] {
+            0, 1, 3, 3, 1, 2,
+    };
+
+    private static int[] textureCoords = new int[] {
+            0, 0,
+            1, 0,
+            1, 1,
+            0, 1
+    };
+
+    private static float[] normals = new float[] {
+            1.7019f, 1.2642937198294f, 1.125f,
+            2.8557f, 2.0642062614962f, 1.7307f,
+            2.8557f, 2.0642062614962f, 1.7307f,
+            1.7019f, 1.2642937198294f, 1.125f
+    };
 
     private int vao, vbo, ibo, tbo;
     private int count;
 
-    public VertexArray(float vertices[], int[] indices, float[] textureCoords) {
+    public VertexArray() {
+        this(vertices, indices, textureCoords, normals);
+    }
+
+    public VertexArray(float vertices[], int[] indices, int[] textureCoords, float[] normals) {
         this.count = indices.length;
 
         vao = glGenVertexArrays();
@@ -27,6 +56,7 @@ public class VertexArray {
         FloatBuffer verticesBuffer = MemoryUtil.memAllocFloat(vertices.length);
         verticesBuffer.put(vertices).flip();
 
+        // Position VBO
         vbo = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
         glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW);
@@ -36,28 +66,31 @@ public class VertexArray {
         MemoryUtil.memFree(verticesBuffer);
 
         // Create texture buffer and bind
-        FloatBuffer textureBuffer = MemoryUtil.memAllocFloat(textureCoords.length);
+        IntBuffer textureBuffer = MemoryUtil.memAllocInt(textureCoords.length);
         textureBuffer.put(textureCoords).flip();
 
+        // Texture coordinates VBO
         tbo = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, tbo);
         glBufferData(GL_ARRAY_BUFFER, textureBuffer, GL_STATIC_DRAW);
-        glVertexAttribPointer(TEXTURE_ATTRIB, 2, GL_FLOAT, false, 0, 0);
+        glVertexAttribPointer(TEXTURE_ATTRIB, 2, GL_UNSIGNED_INT, false, 0, 0);
         glEnableVertexAttribArray(TEXTURE_ATTRIB);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         MemoryUtil.memFree(textureBuffer);
 
+        // create index buffer and bind
         IntBuffer indicesBuffer = MemoryUtil.memAllocInt(indices.length);
         indicesBuffer.put(indices).flip();
 
-        // create index buffer and bind
+        // Index VBO
         ibo = glGenBuffers();
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL_STATIC_DRAW);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         MemoryUtil.memFree(indicesBuffer);
 
-
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
     }
 

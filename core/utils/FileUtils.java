@@ -1,4 +1,4 @@
-package SpotGL.core.files;
+package SpotGL.core.utils;
 
 import SpotGL.core.GLEngine;
 import SpotGL.core.graphics.Texture;
@@ -10,17 +10,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 import javax.imageio.ImageIO;
-import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.ByteBuffer;
@@ -29,6 +23,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 
 public class FileUtils {
 
@@ -67,6 +62,7 @@ public class FileUtils {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, decoder.getWidth(), decoder.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buf);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glGenerateMipmap(GL_TEXTURE_2D);
         } catch (Exception e) {
             System.err.println("Failed to load texture: " + fileName);
             e.printStackTrace();

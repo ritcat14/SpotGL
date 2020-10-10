@@ -1,12 +1,11 @@
-package SpotGL.core.objects;
+package SpotGL.core.objects.model;
 
 import SpotGL.core.graphics.Shader;
 import SpotGL.core.graphics.Texture;
-import SpotGL.core.graphics.VertexArray;
-import SpotGL.core.math.Transformation;
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
-import static SpotGL.core.math.MathUtils.*;
+import static SpotGL.core.utils.MatrixUtils.updateTransformationMatrix;
 
 public abstract class Entity {
 
@@ -17,13 +16,34 @@ public abstract class Entity {
     protected Vector3f size;
     protected Vector3f rotation;
 
+    protected Matrix4f transformationMatrix = new Matrix4f();
+
     public Entity(float x, float y, float width, float height, Texture texture) {
-        this.vertexArray = createEntityVertexArray(this);
+        this.vertexArray = new VertexArray(); // Creates a blank rectangle
         this.texture = texture;
 
-        this.position = new Vector3f(0f, 0f, 0.0f);
-        this.size = new Vector3f(1f, 1f, 1f);
+        this.position = new Vector3f(x, y, -1f);
+        this.size = new Vector3f(width, height, 1f);
         this.rotation = new Vector3f();
+
+        updateTransformationMatrix(this);
+    }
+
+    public abstract void update();
+
+    public void render(Shader shader) {
+        updateTransformationMatrix(this);
+        shader.setUniformMatrix4f("transformationMatrix", transformationMatrix);
+        vertexArray.render(shader, texture);
+    }
+
+    public void cleanUp() {
+        vertexArray.cleanUp();
+        texture.cleanUp();
+    }
+
+    public Matrix4f getTransformationMatrix() {
+        return transformationMatrix;
     }
 
     public Vector3f getPosition() {
@@ -38,10 +58,13 @@ public abstract class Entity {
         return rotation;
     }
 
-    public void setPosition(float x, float y, float z) {
+    public void setTransformationMatrix(Matrix4f transformationMatrix) {
+        this.transformationMatrix = transformationMatrix;
+    }
+
+    public void setPosition(float x, float y) {
         this.position.x = x;
         this.position.y = y;
-        this.position.z = z;
     }
 
     public void setSize(float width, float height) {
@@ -66,18 +89,4 @@ public abstract class Entity {
     public void setRotation(Vector3f rotation) {
         this.rotation = rotation;
     }
-
-    public abstract void update();
-
-    public void render(Shader shader, Transformation transformation) {
-        shader.setUniformMatrix4f("transformationMatrix", transformation.getTransformationMatrix(position, rotation, size));
-        vertexArray.render(shader, texture);
-    }
-
-    public void cleanUp() {
-        vertexArray.cleanUp();
-        texture.cleanUp();
-    }
-
-
 }

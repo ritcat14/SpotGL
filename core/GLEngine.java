@@ -5,7 +5,6 @@ import SpotGL.core.input.InputHandler;
 import SpotGL.core.states.StateManager;
 import SpotGL.game.states.Game;
 
-import static java.lang.System.currentTimeMillis;
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -28,7 +27,7 @@ public class GLEngine implements Runnable {
         inputHandler.init(glFrame.getWindowID());
 
         stateManager = new StateManager();
-        stateManager.addState(new Game());
+        stateManager.addState(new Game(glFrame));
     }
 
     public synchronized void start() {
@@ -46,7 +45,7 @@ public class GLEngine implements Runnable {
     }
 
     public void onEvent() {
-        stateManager.onEvent(inputHandler);
+        stateManager.onInput(inputHandler);
     }
 
     @Override
@@ -55,40 +54,18 @@ public class GLEngine implements Runnable {
 
         glClearColor(0.5f, 0.5f, 0.5f, 0.0f);
 
-        double secsPerUpdate = 1.0d / 30.0d;
-        double previous = currentTimeMillis();
-        double steps = 0.0;
-
         while (!glfwWindowShouldClose(glFrame.getWindowID())) {
-            double loopStartTime = currentTimeMillis();
-            double elapsed = loopStartTime - previous;
-            previous = loopStartTime;
-            steps += elapsed;
-
-            while (steps >= secsPerUpdate) {
-                update();
-                steps -= secsPerUpdate;
-            }
+            update();
 
             render();
-            sync(loopStartTime);
         }
 
         stop();
 
     }
 
-    private void sync(double loopStartTime) {
-        float loopSlot = 1f / 50;
-        double endTime = loopStartTime + loopSlot;
-        while(currentTimeMillis() < endTime) {
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException ie) {}
-        }
-    }
-
     private void update() {
+        glFrame.update();
         inputHandler.update();
         stateManager.update();
     }
@@ -99,4 +76,24 @@ public class GLEngine implements Runnable {
         glfwSwapBuffers(glFrame.getWindowID());
     }
 
+    /*
+        double lastTime = glfwGetTime();
+        int frames = 0;
+        int updates = 0;
+        while (!glfwWindowShouldClose(glFrame.getWindowID())) {
+            double currentTime = glfwGetTime();
+
+            update();
+            updates++;
+
+            frames++;
+            render();
+
+            if (currentTime - lastTime >= 1.0) {
+                System.out.println("FPS:" + frames);
+                System.out.println("UPS:" + frames);
+                frames = 0;
+                lastTime += 1.0;
+            }
+        }*/
 }

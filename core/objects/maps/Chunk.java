@@ -2,8 +2,12 @@ package SpotGL.core.objects.maps;
 
 import SpotGL.core.graphics.Shader;
 import SpotGL.game.entities.Tile;
+import org.joml.Vector2f;
 
 import java.util.Arrays;
+
+import static SpotGL.core.VarStore.RENDER_DISTANCE;
+import static SpotJava.core.util.Maths.calculateDistance;
 
 public class Chunk {
 
@@ -31,14 +35,17 @@ public class Chunk {
                 '}';
     }
 
-    public void render(Shader shader, TileSet tileSet, int mapX, int mapY) {
+    public void render(Shader shader, TileSet tileSet, Vector2f centerPosition) {
         for (int y1 = 0; y1 < height; y1++) {
             for (int x1 = 0; x1 < width; x1++) {
                 int tileID = data[y1][x1];
-                int tileX = mapX + ((x + x1) * tileSet.getWidth()) + (x1 * 40);
-                int tileY = mapY + ((y + y1) * tileSet.getHeight() + y1 * 40);
-                Tile tile = tileSet.getTile(tileID);
-                if (tile != null) tile.render(shader, tileX, tileY);
+                float tileX = ((x + x1) * tileSet.getWidth());
+                float tileY = ((y + y1) * tileSet.getHeight());
+                float dist = calculateDistance(tileX, tileY, centerPosition.x, centerPosition.y);
+                if (dist < RENDER_DISTANCE) {
+                    Tile tile = tileSet.getTile(tileID);
+                    if (tile != null) tile.render(shader, tileX, tileY);
+                }
             }
         }
     }

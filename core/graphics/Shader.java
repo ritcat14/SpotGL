@@ -1,7 +1,9 @@
 package SpotGL.core.graphics;
-import SpotGL.core.files.FileUtils;
+import SpotGL.core.utils.FileUtils;
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.FloatBuffer;
@@ -10,7 +12,7 @@ import java.util.Map;
 
 import static org.lwjgl.opengl.GL20.*;
 
-public abstract class Shader {
+public class Shader {
 
     protected final int ID;
     protected final String name;
@@ -19,16 +21,19 @@ public abstract class Shader {
 
     private Map<String, Integer> locationCache = new HashMap<>();
 
-    public Shader(String vertex, String fragment) throws Exception {
-        this.name = vertex.substring(vertex.length() - 17, vertex.length() - 11);
+    public Shader(String vertex, String fragment) {
+        String[] parts = vertex.split("/");
+        String namePart = parts[parts.length-1];
+        this.name = namePart.substring(0, namePart.length() - 11);
         System.out.println(name);
+
         StringBuilder vertexString = FileUtils.loadAsString(vertex);
         StringBuilder fragmentString = FileUtils.loadAsString(fragment);
 
         this.ID = createShader(vertexString, fragmentString);
     }
 
-    private int createShader(StringBuilder vertex, StringBuilder fragment) throws Exception {
+    private int createShader(StringBuilder vertex, StringBuilder fragment) {
         int ID = glCreateProgram();
         vertexID = glCreateShader(GL_VERTEX_SHADER);
         fragmentID = glCreateShader(GL_FRAGMENT_SHADER);
@@ -68,15 +73,6 @@ public abstract class Shader {
         glUseProgram(0);
     }
 
-    public void cleanUp() {
-        unbind();
-        glDetachShader(ID, vertexID);
-        glDetachShader(ID, fragmentID);
-        glDeleteShader(vertexID);
-        glDeleteShader(fragmentID);
-        glDeleteProgram(ID);
-    }
-
     public int getUniform(String name) {
         if (locationCache.containsKey(name))
             return locationCache.get(name);
@@ -99,12 +95,16 @@ public abstract class Shader {
         glUniform1f(getUniform(name), value);
     }
 
-    public void setUniform2f(String name, float x, float y) {
-        glUniform2f(getUniform(name), x, y);
+    public void setUniform2f(String name, Vector2f vector2f) {
+        glUniform2f(getUniform(name), vector2f.x, vector2f.y);
     }
 
     public void setUniform3f(String name, Vector3f vector3f) {
         glUniform3f(getUniform(name), vector3f.x, vector3f.y, vector3f.z);
+    }
+
+    public void setUniform4f(String name, Vector4f vector4f) {
+        glUniform4f(getUniform(name), vector4f.x, vector4f.y, vector4f.z, vector4f.w);
     }
 
     public void setUniformMatrix4f(String name, Matrix4f matrix4f) {
@@ -113,5 +113,13 @@ public abstract class Shader {
             matrix4f.get(floatBuffer);
             glUniformMatrix4fv(getUniform(name), false, floatBuffer);
         }
+    }
+    public void cleanUp() {
+        unbind();
+        glDetachShader(ID, vertexID);
+        glDetachShader(ID, fragmentID);
+        glDeleteShader(vertexID);
+        glDeleteShader(fragmentID);
+        glDeleteProgram(ID);
     }
 }
