@@ -5,6 +5,7 @@ import SpotGL.core.graphics.Shader;
 import SpotGL.core.input.InputHandler;
 import SpotGL.core.input.InputListener;
 import SpotGL.core.objects.Camera;
+import SpotGL.core.objects.maps.Map;
 import SpotGL.core.objects.model.Entity;
 import SpotGL.game.entities.Player;
 
@@ -16,9 +17,11 @@ public class EntityManager extends Manager {
     private List<Entity> entityList;
     private Player player;
     private Camera camera;
+    private Map map;
 
-    public EntityManager(Camera camera) {
+    public EntityManager(Map map, Camera camera) {
         super(new Shader("shaders/entityVertex.glsl", "shaders/entityFragment.glsl"));
+        this.map = map;
         this.camera = camera;
         entityList = new ArrayList<Entity>();
     }
@@ -46,6 +49,7 @@ public class EntityManager extends Manager {
         for (Entity entity : entityList) {
             entity.render(shader);
         }
+        map.renderObjects(shader);
         shader.unbind();
     }
 

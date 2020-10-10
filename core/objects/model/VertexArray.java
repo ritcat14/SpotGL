@@ -27,9 +27,9 @@ public class VertexArray {
 
     private static int[] textureCoords = new int[] {
             0, 0,
-            1, 0,
+            0, 1,
             1, 1,
-            0, 1
+            1, 0
     };
 
     private static float[] normals = new float[] {

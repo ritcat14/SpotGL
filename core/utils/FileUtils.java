@@ -3,6 +3,8 @@ package SpotGL.core.utils;
 import SpotGL.core.GLEngine;
 import SpotGL.core.graphics.Texture;
 import SpotGL.core.objects.maps.*;
+import SpotGL.core.objects.model.Entity;
+import SpotGL.game.entities.maps.map1.StartHouse;
 import SpotJava.JavaMain;
 import de.matthiasmann.twl.utils.PNGDecoder;
 import org.w3c.dom.Document;
@@ -100,12 +102,14 @@ public class FileUtils {
 
     public static MapData readMap(String mapFile) throws ParserConfigurationException, SAXException, IOException {
         //Initialize a list of employees
-        List<Layer> layers = new ArrayList<>();
+        List<TileLayer> tileLayers = new ArrayList<>();
+        List<ObjectLayer> objectLayers = new ArrayList<>();
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(new File(mapFile));
         document.getDocumentElement().normalize();
+
         NodeList nList = document.getElementsByTagName("layer");
 
         for (int temp = 0; temp < nList.getLength(); temp++) {
@@ -158,13 +162,42 @@ public class FileUtils {
                     }
                 }
 
-                layers.add(new Layer(Integer.parseInt(eElement.getAttribute("id")), eElement.getAttribute("name"),
+                tileLayers.add(new TileLayer(Integer.parseInt(eElement.getAttribute("id")), eElement.getAttribute("name"),
                         Integer.parseInt(eElement.getAttribute("width")),
                         Integer.parseInt(eElement.getAttribute("height")), chunks));
             }
         }
 
-        return new MapData(layers, new TileSet());
+        nList = document.getElementsByTagName("objectgroup");
+
+        for (int temp = 0; temp < nList.getLength(); temp++) {
+            Node node = nList.item(temp);
+
+            List<Entity> entityList = new ArrayList<>();
+
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element element = (Element) node;
+                NodeList objectList = element.getElementsByTagName("object");
+
+                for (int objectTemp = 0; objectTemp < objectList.getLength(); objectTemp++) {
+                    Node objectNode = objectList.item(objectTemp);
+                    Element objectElement = (Element)objectNode;
+
+                    int width = Integer.parseInt(objectElement.getAttribute("width"));
+                    int height = Integer.parseInt(objectElement.getAttribute("height"));
+                    int x = Integer.parseInt(objectElement.getAttribute("x"));
+                    int y = Integer.parseInt(objectElement.getAttribute("y"));
+                    String name = objectElement.getAttribute("name");
+
+                    System.out.println("Object loaded:" + name + "; " + x + "; " + y + "; " + width + "; " + height);
+
+                    if (name.equals("startHouse")) entityList.add(new StartHouse(x, y, width, height));
+                }
+                objectLayers.add(new ObjectLayer(entityList));
+            }
+        }
+
+        return new MapData(tileLayers, objectLayers, new TileSet());
     }
 
 }

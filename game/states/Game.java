@@ -24,10 +24,11 @@ public class Game extends State {
     @Override
     public void init() {
         camera = new Camera();
-        entityManager = new EntityManager(camera);
+        Map1 map = new Map1(camera);
+        entityManager = new EntityManager(map, camera);
         entityManager.setPlayer(new Player());
 
-        terrainManager = new TerrainManager(new Map1(camera));
+        terrainManager = new TerrainManager(map);
     }
 
     @Override

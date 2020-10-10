@@ -5,7 +5,7 @@ import org.joml.Vector2f;
 
 import java.util.List;
 
-public class Layer {
+public class TileLayer {
 
     private final int id;
     private final String name;
@@ -13,7 +13,7 @@ public class Layer {
     private final int height;
     private final List<Chunk> layerData;
 
-    public Layer(int id, String name, int width, int height, List<Chunk> layerData) {
+    public TileLayer(int id, String name, int width, int height, List<Chunk> layerData) {
         this.id = id;
         this.name = name;
         this.width = width;

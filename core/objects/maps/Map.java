@@ -34,8 +34,12 @@ public abstract class Map {
         centerPosition.y = camera.getPosition().y;
     }
 
-    public void render(Shader shader) {
-        mapData.render(shader, centerPosition);
+    public void renderTileLayers(Shader shader) {
+        mapData.renderTileLayers(shader, centerPosition);
+    }
+
+    public void renderObjects(Shader shader) {
+        mapData.renderObjectLayers(shader);
     }
 
     public void cleanUp() {

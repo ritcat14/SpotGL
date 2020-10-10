@@ -7,17 +7,31 @@ import java.util.List;
 
 public class MapData {
 
-    private final List<Layer> layers;
+    private final List<TileLayer> tileLayers;
+    private final List<ObjectLayer> objectLayers;
     private final TileSet tileSet;
 
-    public MapData(List<Layer> layers, TileSet tileSet) {
-        this.layers = layers;
+    public MapData(List<TileLayer> tileLayers, List<ObjectLayer> objectLayers, TileSet tileSet) {
+        this.tileLayers = tileLayers;
+        this.objectLayers = objectLayers;
         this.tileSet = tileSet;
     }
 
-    public void render(Shader shader, Vector2f centerPosition) {
-        for (Layer layer : layers) {
-            layer.render(shader, tileSet, centerPosition);
+    public void update() {
+        for (ObjectLayer objectLayer : objectLayers) {
+            objectLayer.update();
+        }
+    }
+
+    public void renderObjectLayers(Shader shader) {
+        for (ObjectLayer objectLayer : objectLayers) {
+            objectLayer.render(shader);
+        }
+    }
+
+    public void renderTileLayers(Shader shader, Vector2f centerPosition) {
+        for (TileLayer tileLayer : tileLayers) {
+            tileLayer.render(shader, tileSet, centerPosition);
         }
     }
 
