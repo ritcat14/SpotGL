@@ -4,6 +4,7 @@ import SpotGL.core.GLEngine;
 import SpotGL.core.graphics.Texture;
 import SpotGL.core.objects.maps.*;
 import SpotGL.core.objects.model.Entity;
+import SpotGL.core.objects.model.MapObject;
 import SpotGL.game.entities.maps.map1.StartHouse;
 import SpotJava.JavaMain;
 import de.matthiasmann.twl.utils.PNGDecoder;
@@ -173,7 +174,7 @@ public class FileUtils {
         for (int temp = 0; temp < nList.getLength(); temp++) {
             Node node = nList.item(temp);
 
-            List<Entity> entityList = new ArrayList<>();
+            List<MapObject> entityList = new ArrayList<>();
 
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element element = (Element) node;

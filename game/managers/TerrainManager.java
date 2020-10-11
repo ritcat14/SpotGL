@@ -26,7 +26,7 @@ public class TerrainManager extends Manager {
         shader.setUniformMatrix4f("viewMatrix", camera.getViewMatrix());
         shader.setUniformMatrix4f("projectionMatrix", frame.getProjectionMatrix());
 
-        map.renderTileLayers(shader);
+        map.render(shader);
 
         shader.unbind();
     }

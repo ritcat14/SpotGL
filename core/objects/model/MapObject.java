@@ -1,32 +1,27 @@
-package SpotGL.game.entities;
+package SpotGL.core.objects.model;
 
 import SpotGL.core.graphics.Shader;
 import SpotGL.core.graphics.Texture;
-import SpotGL.core.objects.model.Entity;
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 
 import static SpotGL.core.VarStore.*;
-import static SpotGL.core.utils.MathUtils.calculateDistance1f;
 import static SpotGL.core.utils.MatrixUtils.updateTransformationMatrix;
 import static org.lwjgl.opengl.GL11.*;
 
+public abstract class MapObject extends Entity {
 
-public class Tile extends Entity {
+    private Vector3f origin;
 
-    public Tile(int width, int height, Texture texture) {
-        super(0, 0, width, height, texture);
+    public MapObject(float x, float y, float width, float height, Texture texture) {
+        super(x, y, width, height, texture);
+        this.origin = new Vector3f(position);
     }
 
-    @Override
-    public void update() {
-
-    }
-
-    public void render(Shader shader, float x, float y, Vector2f centerPosition) {
-        if (x < 0 || y < 0 || x >= JAVA_WIDTH || y >= JAVA_HEIGHT) return;
+    public void render(Shader shader, Vector2f centerPosition) {
+        if (position.x < 0 || position.y < 0 || position.x >= JAVA_WIDTH || position.y >= JAVA_HEIGHT) return;
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        setPosition(x, y);
         updateTransformationMatrix(this);
         shader.setUniform1f("renderDistance", RENDER_DISTANCE);
         shader.setUniform2f("centerPos", centerPosition);

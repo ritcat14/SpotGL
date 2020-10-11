@@ -24,6 +24,6 @@ public abstract class VarStore {
     public static int VERTEX_ATTRIB = 0;
     public static int TEXTURE_ATTRIB = 1;
 
-    public static final float RENDER_DISTANCE = 400.0f;
+    public static final float RENDER_DISTANCE = 0.8f;
 
 }

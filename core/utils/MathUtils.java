@@ -1,5 +1,6 @@
 package SpotGL.core.utils;
 
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import static SpotGL.core.VarStore.*;
@@ -7,6 +8,18 @@ import static SpotGL.core.VarStore.*;
 public class MathUtils {
 
     private MathUtils() {}
+
+
+    public static float calculateDistance1f(float x1, float y1, float x2, float y2) {
+        return (float)Math.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
+    }
+
+    public static Vector2f calculateDistance2f(float x1, float y1, float x2, float y2) {
+        Vector2f result = new Vector2f();
+        result.x = x2 - x1;
+        result.y = y2 - y1;
+        return result;
+    }
 
     public static float roundFloat(float f) {
         return (float)Math.round(f * 12.0f) / 12.0f;

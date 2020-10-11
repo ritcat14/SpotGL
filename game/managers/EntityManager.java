@@ -17,11 +17,9 @@ public class EntityManager extends Manager {
     private List<Entity> entityList;
     private Player player;
     private Camera camera;
-    private Map map;
 
     public EntityManager(Map map, Camera camera) {
         super(new Shader("shaders/entityVertex.glsl", "shaders/entityFragment.glsl"));
-        this.map = map;
         this.camera = camera;
         entityList = new ArrayList<Entity>();
     }
@@ -49,7 +47,6 @@ public class EntityManager extends Manager {
         for (Entity entity : entityList) {
             entity.render(shader);
         }
-        map.renderObjects(shader);
         shader.unbind();
     }
 
