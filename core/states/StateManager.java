@@ -87,12 +87,14 @@ public class StateManager implements InputListener {
     }
 
     @Override
-    public void onInput(InputHandler inputHandler) {
+    public boolean onInput(InputHandler inputHandler) {
+        boolean result = false;
         if (currentState != null) {
             input = true;
-            currentState.onInput(inputHandler);
+            result = currentState.onInput(inputHandler);
             input = false;
         }
+        return result;
     }
 
     public void cleanUp() {

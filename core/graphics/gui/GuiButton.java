@@ -22,7 +22,7 @@ public abstract class GuiButton extends GuiComponent {
         this.name = texture;
     }
 
-    public abstract void onAction();
+    public abstract boolean onAction();
 
     @Override
     public void update() {
@@ -35,15 +35,21 @@ public abstract class GuiButton extends GuiComponent {
     }
 
     @Override
-    public void onInput(InputHandler inputHandler) {
+    public boolean onInput(InputHandler inputHandler) {
+        boolean result = false;
         Vector2f mousePosition = inputHandler.getMousePosition();
+
         if (mouseInBounds(mousePosition)) {
             this.texture = mouseOverTexture;
+
             if (inputHandler.mouseButtonReleased(GLFW_MOUSE_BUTTON_1)) {
                 System.out.println("Button " + name + " pressed!");
-                onAction();
+                result = onAction();
             }
         }
-        else this.texture = normalTexture;
+        else {
+            this.texture = normalTexture;
+        }
+        return result;
     }
 }

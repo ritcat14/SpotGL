@@ -5,7 +5,6 @@ import SpotGL.core.graphics.Shader;
 import SpotGL.core.input.InputHandler;
 import SpotGL.core.input.InputListener;
 import SpotGL.core.objects.Camera;
-import SpotGL.core.objects.maps.Map;
 import SpotGL.core.objects.model.Entity;
 import SpotGL.game.entities.Player;
 
@@ -59,10 +58,14 @@ public class EntityManager extends Manager {
     }
 
     @Override
-    public void onInput(InputHandler inputHandler) {
-        player.onInput(inputHandler);
+    public boolean onInput(InputHandler inputHandler) {
+        boolean result = player.onInput(inputHandler);
+
         for (Entity entity : entityList) {
-            if (entity instanceof InputListener) ((InputListener) entity).onInput(inputHandler);
+            if (entity instanceof InputListener) {
+                if (!result) result = ((InputListener) entity).onInput(inputHandler);
+            }
         }
+        return result;
     }
 }

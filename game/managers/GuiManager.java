@@ -58,7 +58,9 @@ public class GuiManager extends Manager {
     }
 
     @Override
-    public void onInput(InputHandler inputHandler) {
-        for (GuiComponent component : componentList) component.onInput(inputHandler);
+    public boolean onInput(InputHandler inputHandler) {
+        boolean result = false;
+        for (GuiComponent component : componentList) if (!result) result = component.onInput(inputHandler);
+        return result;
     }
 }

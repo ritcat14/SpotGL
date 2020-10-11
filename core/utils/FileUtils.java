@@ -184,10 +184,10 @@ public class FileUtils {
                     Node objectNode = objectList.item(objectTemp);
                     Element objectElement = (Element)objectNode;
 
-                    int width = Integer.parseInt(objectElement.getAttribute("width"));
-                    int height = Integer.parseInt(objectElement.getAttribute("height"));
-                    int x = Integer.parseInt(objectElement.getAttribute("x"));
-                    int y = Integer.parseInt(objectElement.getAttribute("y"));
+                    float width = Float.parseFloat(objectElement.getAttribute("width"));
+                    float height = Float.parseFloat(objectElement.getAttribute("height"));
+                    float x = Float.parseFloat(objectElement.getAttribute("x"));
+                    float y = Float.parseFloat(objectElement.getAttribute("y"));
                     String name = objectElement.getAttribute("name");
 
                     System.out.println("Object loaded:" + name + "; " + x + "; " + y + "; " + width + "; " + height);

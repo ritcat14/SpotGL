@@ -6,6 +6,7 @@ import SpotGL.core.objects.Camera;
 import SpotGL.core.states.State;
 import SpotGL.game.entities.Player;
 import SpotGL.game.managers.EntityManager;
+import SpotGL.game.managers.GuiManager;
 import SpotGL.game.managers.TerrainManager;
 import SpotGL.game.maps.Map1;
 
@@ -17,6 +18,7 @@ public class Game extends State {
 
     private EntityManager entityManager;
     private TerrainManager terrainManager;
+    private GuiManager guiManager;
 
     public Game() {
         super(GAME);
@@ -30,16 +32,20 @@ public class Game extends State {
         entityManager.setPlayer(new Player());
 
         terrainManager = new TerrainManager(glFrame, map, camera);
+
+        guiManager = new GuiManager(glFrame, camera);
     }
 
     @Override
     public void update() {
         entityManager.update();
         terrainManager.update();
+        guiManager.update();
     }
 
     @Override
     public void render() {
+        guiManager.render();
         entityManager.render();
         terrainManager.render();
     }
@@ -48,11 +54,18 @@ public class Game extends State {
     public void cleanUp() {
         entityManager.cleanUp();
         terrainManager.cleanUp();
+        guiManager.cleanUp();
     }
 
     @Override
-    public void onInput(InputHandler inputHandler) {
-        if (inputHandler.keyPressed(GLFW_KEY_ESCAPE)) requestChange(START);
-        else entityManager.onInput(inputHandler);
+    public boolean onInput(InputHandler inputHandler) {
+        boolean result = false;
+        if (inputHandler.keyPressed(GLFW_KEY_ESCAPE)) {
+            requestChange(START);
+            result = true;
+        }
+        else result = entityManager.onInput(inputHandler);
+
+        return result;
     }
 }

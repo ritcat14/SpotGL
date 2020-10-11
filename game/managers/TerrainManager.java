@@ -38,7 +38,7 @@ public class TerrainManager extends Manager {
     }
 
     @Override
-    public void onInput(InputHandler inputHandler) {
-
+    public boolean onInput(InputHandler inputHandler) {
+        return false;
     }
 }

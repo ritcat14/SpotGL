@@ -10,7 +10,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
 import static SpotGL.core.utils.FileUtils.readMap;
-import static SpotGL.core.utils.MathUtils.pixelSizeToGL;
 import static SpotGL.core.utils.MathUtils.pixelToGL;
 
 public abstract class Map {

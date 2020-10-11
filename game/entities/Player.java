@@ -52,18 +52,48 @@ public class Player extends Entity implements InputListener {
     }
 
     @Override
-    public void onInput(InputHandler inputHandler) {
+    public boolean onInput(InputHandler inputHandler) {
+        boolean result = false;
         if (up) {
-            if (inputHandler.keyReleased(GLFW.GLFW_KEY_W)) up = false;
-        } else up = inputHandler.keyPressed(GLFW.GLFW_KEY_W);
+            if (inputHandler.keyReleased(GLFW.GLFW_KEY_W)) {
+                up = false;
+                result = true;
+            }
+        } else {
+            up = inputHandler.keyPressed(GLFW.GLFW_KEY_W);
+            result = true;
+        }
+
         if (down) {
-            if (inputHandler.keyReleased(GLFW.GLFW_KEY_S)) down = false;
-        } else down = inputHandler.keyPressed(GLFW.GLFW_KEY_S);
+            if (inputHandler.keyReleased(GLFW.GLFW_KEY_S)) {
+                down = false;
+                result = true;
+            }
+        } else {
+            down = inputHandler.keyPressed(GLFW.GLFW_KEY_S);
+            result = true;
+        }
+
         if (left) {
-            if (inputHandler.keyReleased(GLFW.GLFW_KEY_A)) left = false;
-        } else left = inputHandler.keyPressed(GLFW.GLFW_KEY_A);
+            if (inputHandler.keyReleased(GLFW.GLFW_KEY_A)) {
+                left = false;
+                result = true;
+            }
+        } else {
+            left = inputHandler.keyPressed(GLFW.GLFW_KEY_A);
+            result = true;
+        }
+
         if (right) {
-            if (inputHandler.keyReleased(GLFW.GLFW_KEY_D)) right = false;
-        } else right = inputHandler.keyPressed(GLFW.GLFW_KEY_D);
+            if (inputHandler.keyReleased(GLFW.GLFW_KEY_D)) {
+                right = false;
+                result = true;
+            }
+        } else {
+            right = inputHandler.keyPressed(GLFW.GLFW_KEY_D);
+            result = true;
+        }
+
+        return result;
     }
 }

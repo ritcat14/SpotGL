@@ -6,7 +6,6 @@ import SpotGL.core.graphics.gui.GuiPanel;
 import SpotGL.core.input.InputHandler;
 import SpotGL.core.objects.Camera;
 import SpotGL.core.states.State;
-import SpotGL.core.states.StateName;
 import SpotGL.game.managers.GuiManager;
 
 import static SpotGL.core.VarStore.JAVA_HEIGHT;
@@ -30,20 +29,23 @@ public class Start extends State {
                 loadTexture("/images/gui/startBackground.png")));
         guiManager.addComponent(new GuiButton(JAVA_WIDTH/2, JAVA_HEIGHT/2, 288, 70,"start") {
             @Override
-            public void onAction() {
+            public boolean onAction() {
                 requestChange(GAME);
+                return true;
             }
         });
         guiManager.addComponent(new GuiButton(JAVA_WIDTH/2, (JAVA_HEIGHT/2) + 100, 288, 70,"settings") {
             @Override
-            public void onAction() {
+            public boolean onAction() {
                 requestChange(SETTINGS);
+                return true;
             }
         });
         guiManager.addComponent(new GuiButton(JAVA_WIDTH/2, (JAVA_HEIGHT/2)+200, 288, 70,"exit") {
             @Override
-            public void onAction() {
+            public boolean onAction() {
                 System.exit(0);
+                return true;
             }
         });
     }
@@ -64,7 +66,7 @@ public class Start extends State {
     }
 
     @Override
-    public void onInput(InputHandler inputHandler) {
-        guiManager.onInput(inputHandler);
+    public boolean onInput(InputHandler inputHandler) {
+        return guiManager.onInput(inputHandler);
     }
 }

@@ -22,7 +22,7 @@ public abstract class Entity {
         this.vertexArray = new VertexArray(); // Creates a blank rectangle
         this.texture = texture;
 
-        this.position = new Vector3f(x, y, -1f);
+        this.position = new Vector3f(x + (width/2), y - (height/2), -1f);
         this.size = new Vector3f(width, height, 1f);
         this.rotation = new Vector3f();
 
