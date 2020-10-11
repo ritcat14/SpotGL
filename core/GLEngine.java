@@ -2,8 +2,9 @@ package SpotGL.core;
 
 import SpotGL.core.graphics.GLFrame;
 import SpotGL.core.input.InputHandler;
+import SpotGL.core.states.State;
 import SpotGL.core.states.StateManager;
-import SpotGL.game.states.Game;
+import SpotGL.core.states.StateName;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -17,7 +18,13 @@ public class GLEngine implements Runnable {
     private InputHandler inputHandler;
     private StateManager stateManager;
 
-    private void init() {
+    private State[] statesToAdd;
+
+    public GLEngine(State... states) {
+        this.statesToAdd = states;
+    }
+
+    public void init() {
         glFrame = new GLFrame(this, 1920, 1080);
 
         glEnable(GL_DEPTH_TEST);
@@ -26,8 +33,10 @@ public class GLEngine implements Runnable {
         inputHandler = glFrame.getInputHandler();
         inputHandler.init(glFrame.getWindowID());
 
-        stateManager = new StateManager();
-        stateManager.addState(new Game(glFrame));
+        stateManager = new StateManager(glFrame);
+        for (State state : statesToAdd) {
+            stateManager.addState(state);
+        }
     }
 
     public synchronized void start() {
@@ -42,6 +51,14 @@ public class GLEngine implements Runnable {
 
         glfwTerminate();
         glfwSetErrorCallback(null).free();
+    }
+
+    public void addState(State state) {
+        stateManager.addState(state);
+    }
+
+    public void setState(StateName stateName) {
+        stateManager.setState(stateName);
     }
 
     public void onEvent() {

@@ -64,6 +64,7 @@ public class GLFrame {
         inputHandler = new InputHandler(glEngine);
         glfwSetKeyCallback(windowID, inputHandler.keyboard);
         glfwSetMouseButtonCallback(windowID, inputHandler.mouse);
+        glfwSetCursorPosCallback(windowID, inputHandler.mousePositionCallback);
 
         glfwMakeContextCurrent(windowID);
 

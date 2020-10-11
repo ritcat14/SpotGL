@@ -5,23 +5,20 @@ import SpotGL.core.input.InputListener;
 
 public abstract class State implements InputListener {
 
-    protected final GLFrame glFrame;
-
     private final StateName stateName;
 
     private StateName requestedState;
     private boolean requestedChange = false;
 
-    public State(GLFrame glFrame, StateName stateName) {
+    public State(StateName stateName) {
         this.stateName = stateName;
-        this.glFrame = glFrame;
     }
 
     public boolean verify(StateName stateName) {
         return this.stateName == stateName;
     }
 
-    public abstract void init();
+    public abstract void init(GLFrame glFrame);
 
     public abstract void update();
 

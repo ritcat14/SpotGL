@@ -10,8 +10,8 @@ public class TerrainManager extends Manager {
 
     private Map map;
 
-    public TerrainManager(Map map) {
-        super(new Shader("shaders/terrainVertex.glsl", "shaders/terrainFragment.glsl"));
+    public TerrainManager(GLFrame glFrame, Map map, Camera camera) {
+        super(glFrame, new Shader("shaders/terrainVertex.glsl", "shaders/terrainFragment.glsl"), camera);
         this.map = map;
     }
 
@@ -21,10 +21,10 @@ public class TerrainManager extends Manager {
     }
 
     @Override
-    public void render(GLFrame frame, Camera camera) {
+    public void render() {
         shader.bind();
         shader.setUniformMatrix4f("viewMatrix", camera.getViewMatrix());
-        shader.setUniformMatrix4f("projectionMatrix", frame.getProjectionMatrix());
+        shader.setUniformMatrix4f("projectionMatrix", glFrame.getProjectionMatrix());
 
         map.render(shader);
 

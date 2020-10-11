@@ -1,12 +1,12 @@
 package SpotGL.core.input;
 
 import SpotGL.core.GLEngine;
+import org.joml.Vector2f;
+import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 
-import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
-import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
-import static org.lwjgl.glfw.GLFW.glfwPollEvents;
+import static org.lwjgl.glfw.GLFW.*;
 
 public final class InputHandler {
 
@@ -23,6 +23,7 @@ public final class InputHandler {
     private boolean[] activeMouseButtons = new boolean[MOUSE_SIZE];
     private long lastMouseNS = 0;
     private long mouseDoubleClickPeriodNS = 1000000000 / 5; //5th of a second for double click.
+    private Vector2f mousePosition = new Vector2f();
 
     private int NO_STATE = -1;
 
@@ -44,6 +45,13 @@ public final class InputHandler {
         public void invoke(long window, int button, int action, int mods) {
             activeMouseButtons[button] = action != GLFW_RELEASE;
             mouseButtonStates[button] = action;
+        }
+    };
+
+    public GLFWCursorPosCallback mousePositionCallback = new GLFWCursorPosCallback() {
+        @Override
+        public void invoke(long window, double xpos, double ypos) {
+            mousePosition = new Vector2f((float)xpos, (float)ypos);
         }
     };
 
@@ -118,5 +126,9 @@ public final class InputHandler {
         }
 
         return false;
+    }
+
+    public Vector2f getMousePosition() {
+        return mousePosition;
     }
 }

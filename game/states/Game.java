@@ -10,25 +10,26 @@ import SpotGL.game.managers.TerrainManager;
 import SpotGL.game.maps.Map1;
 
 import static SpotGL.core.states.StateName.GAME;
+import static SpotGL.core.states.StateName.START;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 
 public class Game extends State {
 
     private EntityManager entityManager;
     private TerrainManager terrainManager;
-    private Camera camera;
 
-    public Game(GLFrame glFrame) {
-        super(glFrame, GAME);
+    public Game() {
+        super(GAME);
     }
 
     @Override
-    public void init() {
-        camera = new Camera();
+    public void init(GLFrame glFrame) {
+        Camera camera = new Camera();
         Map1 map = new Map1(camera);
-        entityManager = new EntityManager(map, camera);
+        entityManager = new EntityManager(glFrame, camera);
         entityManager.setPlayer(new Player());
 
-        terrainManager = new TerrainManager(map);
+        terrainManager = new TerrainManager(glFrame, map, camera);
     }
 
     @Override
@@ -39,8 +40,8 @@ public class Game extends State {
 
     @Override
     public void render() {
-        entityManager.render(glFrame, camera);
-        terrainManager.render(glFrame, camera);
+        entityManager.render();
+        terrainManager.render();
     }
 
     @Override
@@ -51,6 +52,7 @@ public class Game extends State {
 
     @Override
     public void onInput(InputHandler inputHandler) {
-        entityManager.onInput(inputHandler);
+        if (inputHandler.keyPressed(GLFW_KEY_ESCAPE)) requestChange(START);
+        else entityManager.onInput(inputHandler);
     }
 }

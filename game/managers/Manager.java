@@ -7,15 +7,19 @@ import SpotGL.core.objects.Camera;
 
 public abstract class Manager implements InputListener {
 
-    protected Shader shader;
+    protected final Shader shader;
+    protected final Camera camera;
+    protected final GLFrame glFrame;
 
-    public Manager(Shader shader) {
+    public Manager(GLFrame glFrame, Shader shader, Camera camera) {
+        this.glFrame = glFrame;
         this.shader = shader;
+        this.camera = camera;
     }
 
     public abstract void update();
 
-    public abstract void render(GLFrame frame, Camera camera);
+    public abstract void render();
 
     public abstract void cleanUp();
 

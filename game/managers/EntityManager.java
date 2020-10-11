@@ -16,11 +16,9 @@ public class EntityManager extends Manager {
 
     private List<Entity> entityList;
     private Player player;
-    private Camera camera;
 
-    public EntityManager(Map map, Camera camera) {
-        super(new Shader("shaders/entityVertex.glsl", "shaders/entityFragment.glsl"));
-        this.camera = camera;
+    public EntityManager(GLFrame glFrame, Camera camera) {
+        super(glFrame, new Shader("shaders/entityVertex.glsl", "shaders/entityFragment.glsl"), camera);
         entityList = new ArrayList<Entity>();
     }
 
@@ -38,12 +36,12 @@ public class EntityManager extends Manager {
     }
 
     @Override
-    public void render(GLFrame frame, Camera camera) {
+    public void render() {
         shader.bind();
         player.render(shader);
 
         shader.setUniformMatrix4f("viewMatrix", camera.getViewMatrix());
-        shader.setUniformMatrix4f("projectionMatrix", frame.getProjectionMatrix());
+        shader.setUniformMatrix4f("projectionMatrix", glFrame.getProjectionMatrix());
         for (Entity entity : entityList) {
             entity.render(shader);
         }

@@ -1,5 +1,6 @@
 package SpotGL.core.states;
 
+import SpotGL.core.graphics.GLFrame;
 import SpotGL.core.input.InputHandler;
 import SpotGL.core.input.InputListener;
 
@@ -7,7 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StateManager implements InputListener {
-    
+
+    private GLFrame glFrame;
     private List<State> states;
     private List<State> statesToAdd;
 
@@ -16,9 +18,10 @@ public class StateManager implements InputListener {
 
     private boolean rendering, updating, input;
 
-    public StateManager() {
+    public StateManager(GLFrame glFrame) {
         states = new ArrayList<>();
         statesToAdd = new ArrayList<>();
+        this.glFrame = glFrame;
     }
 
     public void update() {
@@ -26,7 +29,7 @@ public class StateManager implements InputListener {
             if (statesToAdd.size() > 0) {
                 if (currentState == null) {
                     currentState = statesToAdd.get(0);
-                    currentState.init();
+                    currentState.init(glFrame);
                 }
                 states.addAll(statesToAdd);
                 statesToAdd.clear();
@@ -34,8 +37,9 @@ public class StateManager implements InputListener {
             if (requestedState != null) {
                 if (currentState != null && currentState.requestedChange()) currentState.requestComplete();
 
+                if (currentState != null) currentState.cleanUp();
                 currentState = requestedState;
-                currentState.init();
+                currentState.init(glFrame);
                 requestedState = null;
             }
         }
@@ -92,9 +96,7 @@ public class StateManager implements InputListener {
     }
 
     public void cleanUp() {
-        for (State state : states) {
-            state.cleanUp();
-        }
+        currentState.cleanUp();
         states.clear();
         statesToAdd.clear();
     }
