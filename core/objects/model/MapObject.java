@@ -6,6 +6,7 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import static SpotGL.core.VarStore.*;
+import static SpotGL.core.utils.FileUtils.loadPlane;
 import static SpotGL.core.utils.MatrixUtils.updateTransformationMatrix;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -15,6 +16,8 @@ public abstract class MapObject extends Entity {
 
     public MapObject(float x, float y, float width, float height, Texture texture) {
         super(x, y, width, height, texture);
+        this.vertexArray = loadPlane();
+        updateTransformationMatrix(this);
         this.origin = new Vector3f(position);
     }
 

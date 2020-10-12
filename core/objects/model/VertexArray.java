@@ -25,14 +25,14 @@ public class VertexArray {
             0, 1, 3, 3, 1, 2,
     };
 
-    private static int[] textureCoords = new int[] {
+    public static float[] textureCoords = new float[] {
             0, 0,
             0, 1,
             1, 1,
             1, 0
     };
 
-    private static float[] normals = new float[] {
+    public static float[] normals = new float[] {
             1.7019f, 1.2642937198294f, 1.125f,
             2.8557f, 2.0642062614962f, 1.7307f,
             2.8557f, 2.0642062614962f, 1.7307f,
@@ -46,7 +46,7 @@ public class VertexArray {
         this(vertices, indices, textureCoords, normals);
     }
 
-    public VertexArray(float vertices[], int[] indices, int[] textureCoords, float[] normals) {
+    public VertexArray(float vertices[], int[] indices, float[] textureCoords, float[] normals) {
         this.count = indices.length;
 
         vao = glGenVertexArrays();
@@ -66,14 +66,14 @@ public class VertexArray {
         MemoryUtil.memFree(verticesBuffer);
 
         // Create texture buffer and bind
-        IntBuffer textureBuffer = MemoryUtil.memAllocInt(textureCoords.length);
+        FloatBuffer textureBuffer = MemoryUtil.memAllocFloat(textureCoords.length);
         textureBuffer.put(textureCoords).flip();
 
         // Texture coordinates VBO
         tbo = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, tbo);
         glBufferData(GL_ARRAY_BUFFER, textureBuffer, GL_STATIC_DRAW);
-        glVertexAttribPointer(TEXTURE_ATTRIB, 2, GL_UNSIGNED_INT, false, 0, 0);
+        glVertexAttribPointer(TEXTURE_ATTRIB, 2, GL_FLOAT, false, 0, 0);
         glEnableVertexAttribArray(TEXTURE_ATTRIB);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         MemoryUtil.memFree(textureBuffer);

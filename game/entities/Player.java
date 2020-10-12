@@ -10,6 +10,7 @@ import org.lwjgl.glfw.GLFW;
 
 import static SpotGL.core.VarStore.JAVA_HEIGHT;
 import static SpotGL.core.VarStore.JAVA_WIDTH;
+import static SpotGL.core.utils.FileUtils.loadOBJ;
 import static SpotGL.core.utils.FileUtils.loadTexture;
 import static SpotGL.core.utils.MatrixUtils.updateTransformationMatrix;
 
@@ -20,6 +21,8 @@ public class Player extends Entity implements InputListener {
     public Player() {
         super((JAVA_WIDTH/2) - 30, (JAVA_HEIGHT/2) - 30, 60, 60,
                 loadTexture("/images/player/playerTest.png"));
+        vertexArray = loadOBJ("player.obj");
+        updateTransformationMatrix(this);
     }
 
     public void update(Camera camera) {

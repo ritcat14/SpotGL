@@ -12,7 +12,7 @@ import static SpotGL.core.utils.MatrixUtils.updateViewMatrix;
 public class Camera {
 
     private Vector3f position = new Vector3f(JAVA_WIDTH/2, JAVA_HEIGHT/2, 0f);
-    private float pitch;
+    private float pitch = -0.5f;
     private float yaw;
     private float roll;
 

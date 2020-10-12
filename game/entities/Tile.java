@@ -6,7 +6,6 @@ import SpotGL.core.objects.model.Entity;
 import org.joml.Vector2f;
 
 import static SpotGL.core.VarStore.*;
-import static SpotGL.core.utils.MathUtils.calculateDistance1f;
 import static SpotGL.core.utils.MatrixUtils.updateTransformationMatrix;
 import static org.lwjgl.opengl.GL11.*;
 
